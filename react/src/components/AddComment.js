@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'bootstrap-4-react';
-
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 function Event() {
   return (
-    <div className="container bg-info">
-      <div className="row">
-        <div className="col">Cool</div>
-        <div className="col">Warm</div>
-        <div className="col">Cold</div>
-      </div>
-      <div className="row">
-        <div className="col">Cool</div>
-        <div className="col">Warm</div>
-        <div className="col">Cold</div>
-      </div>
-      <div className="row">
-        <div className="col">Cool</div>
-        <div className="col">Warm</div>
-        <div className="col">Cold</div>
-      </div>
-    </div>
+    <Container>
+      <Row>
+        <Col>Cool</Col>
+        <Col>Warm</Col>
+        <Col>Cols</Col>
+      </Row>
+      <Row>
+        <Col>Cool</Col>
+        <Col>Warm</Col>
+        <Col>Cols</Col>
+      </Row>
+      <Row>
+        <Col>Cool</Col>
+        <Col>Warm</Col>
+        <Col>Cols</Col>
+      </Row>
+    </Container>
+
     
   );
 }

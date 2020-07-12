@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'bootstrap-4-react';
+import { Container, Row, Col } from 'react-bootstrap';
 
 class Header extends React.Component{
   render(){
