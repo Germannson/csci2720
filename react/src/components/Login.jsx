@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Container, Row, Col } from 'bootstrap-4-react';
+import React, { Component } from "react";
+import { Container, Row, Col } from "bootstrap-4-react";
 
 function Event() {
   return (
@@ -20,9 +20,7 @@ function Event() {
         <div className="col">Cold</div>
       </div>
     </div>
-    
   );
 }
-
 
 export default Event;
