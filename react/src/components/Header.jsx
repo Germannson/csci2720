@@ -35,6 +35,12 @@ class Header extends Component {
               <Link to="/fav">Favourite</Link>
               &nbsp;&nbsp;
               <Link to="/login">Login</Link>
+              &nbsp;&nbsp;
+              <Link to="/modify">ModifyEvent</Link>
+              &nbsp;&nbsp;
+              <Link to="/create">CreateEvent</Link>
+              &nbsp;&nbsp;
+              <Link to="/detail">EventDetail</Link>
             </Nav>
 
             <Navbar.Text className="mr-auto">
