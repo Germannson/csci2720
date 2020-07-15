@@ -23,6 +23,10 @@ let events = [
   { eventid: 5, name: "Butter", price: 0.9, stock: 99 },
   { eventid: 6, name: "Sour Cream ", price: 2.9, stock: 86 },
   { eventid: 7, name: "Fancy French Cheese 🇫🇷", price: 99, stock: 12 },
+  { eventid: 8, name: "Fancy French Cheese 🇫🇷", price: 99, stock: 12 },
+  { eventid: 8, name: "Fancy French Cheese 🇫🇷", price: 99, stock: 12 },
+  { eventid: 8, name: "Fancy French Cheese 🇫🇷", price: 99, stock: 12 },
+  { eventid: 8, name: "Fancy French Cheese 🇫🇷", price: 99, stock: 12 },
 ];
 
 class EventList extends Component {
