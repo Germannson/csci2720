@@ -5,13 +5,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import EventList from "./components/EventList";
 import Search from "./components/Search";
 import EventModify from "./components/EventModify";
+import Container from "react-bootstrap/Container";
+import "bootstrap/dist/css/bootstrap.min.css";
+import EventDetail from "./components/EventDetail";
+import AddComment from "./components/AddComment";
+import Comments from "./components/Comments";
+
 class App extends React.Component {
   render() {
     return (
       <>
-        <Search />
-        <EventModify />
-        <EventList />
+        <EventDetail />
+        <AddComment />
+        <Comments />
       </>
     );
   }
