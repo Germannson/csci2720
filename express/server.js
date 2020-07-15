@@ -137,4 +137,71 @@ app.post("/api/create/comment", async function (req, res) {
     });
 });
 
+/* 
+Method: GET
+Query string:
+event (Object ID)
+
+Return: Array of Object
+[{"commentContent": <String>, "userName": <String>}]
+*/
+app.get("/api/read/comment", async function (req, res) {
+  await Comment.find()
+    .populate("user")
+    .where("event")
+    .equals(req.query.event)
+    .then((result) => {
+      let resString = result.map((element) => ({
+        commentContent: element.commentContent,
+        userName: element.user.userName,
+      }));
+      console.log(resString);
+      res.send(resString);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+/* 
+Method: GET
+
+Return: Array of Object
+[
+  {
+    "_id": <ObjectId>,
+    "eventId": <Int32>,
+    "eventSummary": <String>,
+    "eventDesc": <String>,
+    "eventLocation": <String>,
+    "eventDate": <String>,
+    "eventOrg": <String>,
+    "__v": <Int32>
+  }
+]
+*/
+app.get("/api/read/event", async function (req, res) {
+  await Event.find()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+// TODO:
+// app.post("/api/delete/event", async function (req, res) {
+//   await Event.find()
+//     .then((result) => {
+//       res.send(result);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json(err);
+//     });
+// });
+
 const server = app.listen(3000);
