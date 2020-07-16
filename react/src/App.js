@@ -10,14 +10,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import EventDetail from "./components/EventDetail";
 import AddComment from "./components/AddComment";
 import Comments from "./components/Comments";
+import EventDetailPage from "./components/EventDetailPage";
 
 class App extends React.Component {
   render() {
     return (
       <>
-        <EventDetail />
-        <AddComment />
-        <Comments />
+        <EventDetailPage />
       </>
     );
   }

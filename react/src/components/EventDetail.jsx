@@ -1,9 +1,20 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+  NavLink,
+} from "react-router-dom";
 
 class EventDetail extends Component {
   state = {};
+
   render() {
     return (
       <Container>
@@ -14,15 +25,19 @@ class EventDetail extends Component {
             </div>
           </Col>
           <Col lg={1}>
-            <Button variant="outline-secondary">Edit</Button>
+            {/* <Link to={`/eventModify/${this.state.eventId}`}>Edit</Link> */}
           </Col>
           <Col lg={1}></Col>
           <Col lg={1}>
-            <Button variant="outline-danger">Delete</Button>
+            <Button variant="outline-danger" onClick={this.props.onDelete}>
+              Delete
+            </Button>
           </Col>
           <Col lg={3}></Col>
           <Col lg={1}>
-            <Button variant="primary">Favourite</Button>
+            <Button variant="primary" onClick={this.props.onFavourite}>
+              Favourite
+            </Button>
           </Col>
           <Col lg={1}></Col>
         </Row>
@@ -30,12 +45,8 @@ class EventDetail extends Component {
           <Col lg={7}>
             <div>
               <h2>Event summary</h2>
-              <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Perferendis voluptas ut explicabo atque consequuntur fugiat,
-                culpa aliquam neque vero incidunt enim a deserunt optio itaque
-                non dolorum possimus. Rerum, soluta?
-              </p>
+
+              <p>{this.props.event.eventSummary}</p>
             </div>
           </Col>
         </Row>
@@ -43,7 +54,8 @@ class EventDetail extends Component {
           <Col lg={7}>
             <div>
               <h2>Event date(s)</h2>
-              <p>DDMMYYYY</p>
+
+              <p>{this.props.event.eventDate}</p>
             </div>
           </Col>
         </Row>
@@ -51,7 +63,8 @@ class EventDetail extends Component {
           <Col lg={7}>
             <div>
               <h2>Event organizer</h2>
-              <p>Lorem ipsum dolor sit amet consectetur</p>
+
+              <p>{this.props.event.eventOrg}</p>
             </div>
           </Col>
         </Row>
@@ -59,7 +72,8 @@ class EventDetail extends Component {
           <Col lg={7}>
             <div>
               <h2>Event location</h2>
-              <p>Lorem ipsum dolor sit amet consectetur</p>
+
+              <p>{this.props.event.eventLocation}</p>
             </div>
           </Col>
         </Row>
@@ -67,12 +81,8 @@ class EventDetail extends Component {
           <Col lg={7}>
             <div>
               <h2>Event description</h2>
-              <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Perferendis voluptas ut explicabo atque consequuntur fugiat,
-                culpa aliquam neque vero incidunt enim a deserunt optio itaque
-                non dolorum possimus. Rerum, soluta?
-              </p>
+
+              <p>{this.props.event.eventDesc}</p>
             </div>
           </Col>
         </Row>

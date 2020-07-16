@@ -1,5 +1,7 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
+app.use(cors());
 // app.use(express.static(__dirname));
 
 var mongoose = require("mongoose");
@@ -16,6 +18,7 @@ var db = mongoose.connection;
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 db.on("error", console.error.bind(console, "Connection error:"));
 db.once("open", function () {
@@ -112,13 +115,23 @@ app.post("/api/create/comment", async function (req, res) {
     .where("eventId")
     .equals(req.body.eventId)
     .then((result) => {
+      // console.log(req.body.eventId);
+      // console.log(result);
       eventObjId = result._id;
+    })
+    .catch((err) => {
+      res.send(err);
+      // console.log(err);
     });
   await User.findOne()
     .where("userId")
     .equals(req.body.userId)
     .then((result) => {
       userObjId = result._id;
+    })
+    .catch((err) => {
+      res.send(err);
+      console.log(err);
     });
   const newComment = new Comment({
     event: eventObjId,
@@ -129,7 +142,6 @@ app.post("/api/create/comment", async function (req, res) {
     .save()
     .then((result) => {
       res.status(200).send(result);
-      console.log("YOOOOOOOOOOO");
     })
     .catch((err) => {
       console.log(err);
@@ -146,10 +158,23 @@ Return: Array of Object
 [{"commentContent": <String>, "userName": <String>}]
 */
 app.get("/api/read/comment", async function (req, res) {
+  let eventObjId;
+  await Event.findOne()
+    .where("eventId")
+    .equals(req.query.event)
+    .then((result) => {
+      eventObjId = result._id;
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+
   await Comment.find()
+    .sort({ commentDate: -1 })
     .populate("user")
     .where("event")
-    .equals(req.query.event)
+    .equals(eventObjId)
     .then((result) => {
       let resString = result.map((element) => ({
         commentContent: element.commentContent,
@@ -192,16 +217,72 @@ app.get("/api/read/event", async function (req, res) {
     });
 });
 
-// TODO:
-// app.post("/api/delete/event", async function (req, res) {
-//   await Event.find()
-//     .then((result) => {
-//       res.send(result);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json(err);
-//     });
-// });
+app.get("/api/read/event/:eventId", async function (req, res) {
+  await Event.findOne()
+    .where("eventId")
+    .equals(req.params.eventId)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+app.get("/api/delete/event/:eventId", async function (req, res) {
+  await Event.findOneAndDelete()
+    .where("eventId")
+    .equals(req.params.eventId)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+app.get("/api/update/user/:userId/favourite/:eventId", async function (
+  req,
+  res
+) {
+  let eventObjId;
+  await Event.findOne()
+    .where("eventId")
+    .equals(req.params.eventId)
+    .then((result) => {
+      eventObjId = result._id;
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+
+  await User.findOneAndUpdate(
+    { userId: req.params.userId },
+    { $push: { userFavourite: { $each: [eventObjId] } } }
+  )
+    .then((result) => {
+      console.log("added");
+      res.send(result);
+    })
+    .catch((err) => {
+      // console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+app.get("/api/read/user/:userId/favourite", async function (req, res) {
+  await User.distinct("userFavourite")
+    .where("userId")
+    .equals(req.params.userId)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+      res.status(500).json(err);
+    });
+});
 
 const server = app.listen(3000);
