@@ -285,4 +285,61 @@ app.get("/api/read/user/:userId/favourite", async function (req, res) {
     });
 });
 
-const server = app.listen(3000);
+app.get('/api/search/keyword/:keyword/field/:field', async function(req,res) {    
+  var keyword = null;
+  if(req.params['field']=='eventId'){
+    keyword = Number(req.params['keyword']);
+    await Event.find( {eventId: keyword}).then((result) => {
+      res.send(result);
+      
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+    
+  }
+  else{  
+    keyword = String(req.params['keyword']);
+  
+  var field = String(req.params['field']);
+  var query = {};
+  
+  query[field] = { $regex: keyword, $options: 'i'};
+  
+ console.log(query+field+keyword);
+  await Event.find(query).then((result) => {
+    res.send(result);
+    
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).json(err);
+  });
+}
+});    
+
+app.post("/api/modify/event", async function (req, res) {
+
+ 
+    Event
+    .findOne({eventId: req.body.eventId})
+    .then((result) => {
+      result.eventSummary= req.body.eventSummary;
+      result.eventDesc= req.body.eventDesc;
+      result.eventLocation= req.body.eventLocation;
+      result.eventDate= req.body.eventDate;
+      result.eventOrg= req.body.eventOrg;
+      result.save();
+      res.status(200).send(result);
+      console.log("YOOOOOOOOOOO");
+      
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+    
+});
+
+const server = app.listen(2000);
