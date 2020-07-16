@@ -3,13 +3,21 @@ import "./App.css";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import "bootstrap/dist/css/bootstrap.min.css";
-import EventDetail from "./components/EventDetail";
+import EventDetailPage from "./components/EventDetail";
 import AddComment from "./components/AddComment";
 import Comments from "./components/Comments";
 import EventList from "./components/EventList";
 import Search from "./components/Search";
 import EventNav from "./components/EventNav";
-
+import EventModify from "./components/EventModify";
+import Header from "./components/Header";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Redirect,
+  Route,
+  useParams
+} from "react-router-dom";
 
 class App extends React.Component {
   
@@ -18,22 +26,72 @@ class App extends React.Component {
     super(props);
     this.state = {
       keyword: 0,
+      userId:'',
+      userName:'',
     };
-    this.handleKeywordChange = this.handleKeywordChange.bind(this);
   }
-  handleKeywordChange(evt) {
-    this.setState({ keyword: Number(evt.target.id)});
-    console.log(this.state.keyword);
-    console.log(evt.target.id);
-    return <EventList keyword= {2} />;
-}
-
   
+/*
+const renderEventModify =(match)=>{
+  return(<EventModify params= {{eventId: match.params.eventId}} />)
+  
+}*/
   render() {
+    
+      const RenderModifyFunction = ({match}) =>  {
+        
+        //console.log(match.params.eventId);
+        //return(<p>{match.params.eventId}</p>)
+        return(<EventModify params= {{eventId: match.params.eventId}} />)
+      };
+      const RenderDetailFunction = ({match}) =>  {
+        let props = {
+          userId:this.state.userId,
+          userName:this.state.userName,
+          eventId: match.params.eventId,
+          }
+        
+        //console.log(match.params.eventId);
+        //return(<p>{match.params.eventId}</p>)
+        return(<EventDetailPage  {...props} />)
+      };
+      
+    
     return (
-      <>
-      <EventNav/>
-      </>
+      <Router>
+        <Header></Header>
+    <Switch>
+    
+    <Route path="/eventNav/">
+    <EventNav />
+ 
+            </Route>
+      
+    
+ <Route path="/eventAll/">
+   
+    <EventList Issearching={0} />
+ 
+            </Route>
+            <Route path="/eventSearch/">
+    <Search />
+ 
+            </Route>
+            <Route path="/eventModify/:eventId" component={RenderModifyFunction} >
+   
+            </Route>
+            <Route path="/eventAdd/">
+
+    <EventModify  params= {{Ismodifing: 0}}/>
+ 
+            </Route>
+            <Route path="/eventDetail/:eventId" component={RenderDetailFunction} >
+   
+            </Route>
+    </Switch>
+  </Router>
+      
+      
     );
   }
 }

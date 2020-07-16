@@ -4,6 +4,14 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import EventList from "./EventList";
 import ReactDOM from 'react-dom'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+  NavLink
+} from "react-router-dom";
 class Search extends Component {
     constructor(props) {
     
@@ -49,6 +57,7 @@ handleKeyword(event) {
 
     return (
       <Container>
+       
         <Form>
        
           <Form.Group controlId="exampleForm.ControlInput1">

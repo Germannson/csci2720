@@ -3,21 +3,32 @@ import { Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from 'axios';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+  NavLink
+} from "react-router-dom";
 
 class EventModify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: props.Ismodifing, //props.info.mode    // 0 for add new , 1 for modify
-      eventId: props.eventId,
+      mode: props.params.Ismodifing, //props.info.mode    // 0 for add new , 1 for modify
+      eventId: props.params.eventId,
     };
   }
 
   render() {
     const FormItem = () => {
-      if (this.state.mode===0) {
+      if (this.state.mode===0) {   //add
         return (
           <Container>
+            <NavLink to="/eventNav" type="button" variant="outline-dark" className="float-right" >
+                  Back
+            </NavLink>
             <Form action="http://localhost:2000/api/create/event" method="post">
               
               <Form.Group id="eventSummary" >
@@ -46,9 +57,12 @@ class EventModify extends Component {
             </Form>
           </Container>
         );
-      } else {
+      } else if(this.state.eventId!==null){
         return (
           <Container>
+            <NavLink to="/eventNav" type="button" variant="outline-dark" className="float-right" >
+                  Back
+            </NavLink>
             <Form action="http://localhost:2000/api/modify/event" method="post">
               <Form.Group as={Row} controlId="formPlaintextEventID">
                 <Form.Label column sm="2">

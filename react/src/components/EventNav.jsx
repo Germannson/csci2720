@@ -7,13 +7,22 @@ import Search from "./Search";
 import EventModify from "./EventModify";
 import Nav from 'react-bootstrap/Nav'
 import ReactDOM from 'react-dom';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useParams,
+    NavLink
+  } from "react-router-dom";
 class EventNav extends Component {
 
   constructor(props) {
     
     super(props);
     this.state = {
-      functionChoose : 0,
+        eventId : 100,
+      functionChoose : 0, //props.match.params.functionChoose,
     };
     this.handleClick1 = this.handleClick1.bind(this);
     this.handleClick2 = this.handleClick2.bind(this);
@@ -42,72 +51,35 @@ class EventNav extends Component {
     });
   }
 
-    render(){
-        const RenderFunction = (props) =>  {
-            if(props.choice===1){   //render all event
-            let params = {
-              Issearching : 0,
-              keyword : null,
-              field : null,
-              }
-            return (
-              <EventList {...params} />
-            );
-            }
-            else if (props.choice===2){
-                return(
-                    <Search />
-                );
-            }
-            else if(props.choice=== 3)
-            {
-                let params = {
-                    Ismodifing : 0,
-                    eventId : null,
-                    }
-                return(
-                    <EventModify {...params} />
-                );
-
-            }   
-            else if(props.choice=== 4)
-            {
-                let params = {
-                    Ismodifing : 1,
-                    eventId : 10000004,
-                    }
-                return(
-                    <EventModify {...params} />
-                );
-
-            }      
-            else{
-                return(
-                    <p>choose a function</p>
-                )
-            }
-
-
+    render (){
+       const renderNavlink =()=> {
+            //let str = "/eventModify/"+String(this.state.eventId);
+            //console.log(match.params.eventId);
+            //return(<p>{match.params.eventId}</p>)
+            return(<Link  >Modify Event</Link>)
           };
+        
+
+        
         return(
             <Container>
+               
             <Nav justify variant="tabs" defaultActiveKey="/home">
             <Nav.Item>
-              <Nav.Link  eventKey="allevent" onClick ={this.handleClick1}>All Event</Nav.Link>
+              <NavLink to="/eventAll"  eventKey="allevent" >All Event</NavLink>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link  eventKey="search" onClick ={this.handleClick2}>Search Event</Nav.Link>
+              <NavLink to="/eventSearch" eventKey="search" >Search Event</NavLink>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link  eventKey="addnew" onClick ={this.handleClick3}>Add Event</Nav.Link>
+              <NavLink to="/eventAdd" eventKey="addnew">Add Event</NavLink >
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link  eventKey="modifyevent" onClick ={this.handleClick4}>Modify Event</Nav.Link>
+                <NavLink to={`/eventModify/${this.state.eventId}`}>Modify Event</NavLink >
             </Nav.Item>
           </Nav>
-          <div >
-             <RenderFunction choice = {this.state.functionChoose}/>
-            </div>
+          
+          
  
           
           </Container>

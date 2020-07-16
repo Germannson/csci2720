@@ -1,10 +1,17 @@
 import React, { Component } from "react";
-import { Container } from "react-bootstrap";
+import { Container,Col,Row} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Pagination from "react-bootstrap/Pagination";
 import Table from "react-bootstrap/Table";
 import axios from 'axios';
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+  NavLink
+} from "react-router-dom";
 
 
 let events = [];
@@ -14,7 +21,7 @@ class EventList extends Component {
     super(props);
     this.state = {
       currentPage: 1,
-      todosPerPage: 3, //props.keyword, //, //items per pages
+      todosPerPage: 100, //props.keyword, //, //items per pages
       eventclicked: "",
       eventslist :[],
       keyword: props.keyword,
@@ -130,8 +137,8 @@ class EventList extends Component {
 
       const renderTodos = currentTodos.map((todo, index) => {
         return (
-          <tr key={index} id={todo.eventId} onClick={this.handleClick2}>
-            <td>{todo.eventId}</td>
+          <tr key={index} id={todo.eventId}>
+            <td><Link to={`/eventDetail/${todo.eventId}`}>{todo.eventId}</Link></td>
             <td>{todo.eventSummary}</td>
             <td>{todo.eventDate}</td>
             <td>{todo.eventLocation}</td>
@@ -144,7 +151,8 @@ class EventList extends Component {
 
       return (
         
-        <Table responsive>
+        <Table >
+          
           <thead>
             <tr>
               <th>
@@ -202,12 +210,17 @@ class EventList extends Component {
 
     return (
       <Container>
+        <NavLink to="/eventNav" className="float-right" >
+                  Back
+        </NavLink>
         <div>
           <h1>Events List</h1>
           <p>Total {events.length} result(s)</p>
         </div>
         <div>
-          <EventsTable events={events} />
+    
+        <EventsTable events={events} />
+         
         </div>
         <div>
           <Pagination id="page-numbers">{renderPageNumbers}</Pagination>
