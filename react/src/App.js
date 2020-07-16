@@ -11,6 +11,7 @@ import Search from "./components/Search";
 import EventNav from "./components/EventNav";
 import EventModify from "./components/EventModify";
 import Header from "./components/Header";
+import EventFavourite from "./components/EventFavourite";
 import {
   BrowserRouter as Router,
   Switch,
@@ -55,6 +56,12 @@ const renderEventModify =(match)=>{
         //return(<p>{match.params.eventId}</p>)
         return(<EventDetailPage  {...props} />)
       };
+      const RenderFavouriteFunction = ({match}) =>  {
+        
+        //console.log(match.params.eventId);
+        //return(<p>{match.params.eventId}</p>)
+        return(<EventFavourite params= {{userId: match.params.userId}} />)
+      };
       
     
     return (
@@ -86,6 +93,9 @@ const renderEventModify =(match)=>{
  
             </Route>
             <Route path="/eventDetail/:eventId" component={RenderDetailFunction} >
+   
+            </Route>
+            <Route path="/eventFavourite/:userId" component={RenderFavouriteFunction} >
    
             </Route>
     </Switch>

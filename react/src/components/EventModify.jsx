@@ -57,7 +57,7 @@ class EventModify extends Component {
             </Form>
           </Container>
         );
-      } else if(this.state.eventId!==null){
+      } else if(this.state.eventId!=null){
         return (
           <Container>
             <NavLink to="/eventNav" type="button" variant="outline-dark" className="float-right" >
@@ -97,7 +97,7 @@ class EventModify extends Component {
                 <Form.Label>Event Description</Form.Label>
                 <Form.Control name="eventDesc" as="textarea" rows="4" />
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" >
                 Submit
               </Button>
             </Form>

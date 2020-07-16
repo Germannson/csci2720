@@ -6,54 +6,36 @@ import Table from "react-bootstrap/Table";
 import axios from 'axios';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   Link,
-  useParams,
   NavLink
 } from "react-router-dom";
 
 
 let events = [];
 
-class EventList extends Component {
+class EventFavourite extends Component {
   constructor(props) {
     super(props);
     this.state = {
       currentPage: 1,
-      todosPerPage: 100, //props.keyword, //, //items per pages
-      eventclicked: "",
+      todosPerPage: 20, //props.keyword, //, //items per pages
+     
       eventslist :[],
-      keyword: props.keyword,
-      Issearching : props.Issearching,
-      field : props.field,
-      finishsearch: 0,
+      userId : props.userId,
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleClick2 = this.handleClick2.bind(this);
   }
 
   componentDidMount() {
-    if(this.state.Issearching===0){
 
-    axios.get(`http://localhost:2000/api/read/event`)
+    axios.get(`http://localhost:2000/api/read/user/`+this.state.userId+`/favorite/`)  //axios.get(`http://localhost:2000/api/read/user/`+this.state.userId+`/favorite/`)
       .then(res => {
         const eventslist = res.data;
         events = res.data;
         console.log(res.data);
         this.setState({ eventslist });
       })
-    
-    }else{
-      axios.get('http://localhost:2000/api/search/keyword/'+this.state.keyword+'/field/'+this.state.field)
-      .then(res => {
-        const eventslist = res.data;
-        events = res.data;
-        console.log(res.data);
-        this.setState({ eventslist });
-      })
-
-    }
   }
   handleClick(event) {
     this.setState({
@@ -214,12 +196,12 @@ class EventList extends Component {
                   Back
         </NavLink>
         <div>
-          <h1>Events List</h1>
+          <h1>My Favourite Events List</h1>
           <p>Total {events.length} result(s)</p>
         </div>
         <div>
     
-        <EventsTable events={this.state.eventslist} />
+        <EventsTable events={events} />
          
         </div>
         <div>
@@ -229,4 +211,4 @@ class EventList extends Component {
     );
   }
 }
-export default EventList;
+export default EventFavourite;
