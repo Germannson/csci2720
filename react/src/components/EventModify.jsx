@@ -2,44 +2,43 @@ import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import axios from 'axios';
+
 class EventModify extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: 0, //props.info.mode    // 0 for modify ,1 for add new
-      eventId: 0,
+      mode: props.Ismodifing, //props.info.mode    // 0 for add new , 1 for modify
+      eventId: props.eventId,
     };
   }
 
   render() {
     const FormItem = () => {
-      if (this.state.mode) {
+      if (this.state.mode===0) {
         return (
           <Container>
-            <Form>
-              <Form.Group controlId="exampleForm.ControlInput1">
-                <Form.Label>Event ID</Form.Label>
-                <Form.Control type="text" placeholder="Event ID" />
-              </Form.Group>
-              <Form.Group controlId="exampleForm.ControlInput2">
+            <Form action="http://localhost:2000/api/create/event" method="post">
+              
+              <Form.Group id="eventSummary" >
                 <Form.Label>Event Summary</Form.Label>
-                <Form.Control type="text" placeholder="Event Summary" />
+                <Form.Control name="eventSummary" type="text" placeholder="Event Summary" />
               </Form.Group>
-              <Form.Group controlId="exampleForm.ControlInput3">
+              <Form.Group >
                 <Form.Label>Event Date</Form.Label>
-                <Form.Control type="text" placeholder="Date" />
+                <Form.Control name = "eventDate" type="text" placeholder="Date" />
               </Form.Group>
-              <Form.Group controlId="exampleForm.ControlInput4">
+              <Form.Group >
                 <Form.Label>Event Organizer</Form.Label>
-                <Form.Control type="text" placeholder="Event Organizer" />
+                <Form.Control name = "eventOrg" type="text" placeholder="Event Organizer" />
               </Form.Group>
-              <Form.Group controlId="exampleForm.ControlInput5">
+              <Form.Group >
                 <Form.Label>Event Location</Form.Label>
-                <Form.Control type="text" placeholder="Location" />
+                <Form.Control name = "eventLocation" type="text" placeholder="Location" />
               </Form.Group>
-              <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Group >
                 <Form.Label>Event Description</Form.Label>
-                <Form.Control as="textarea" rows="4" />
+                <Form.Control name = "eventDesc" as="textarea" rows="4" />
               </Form.Group>
               <Button variant="primary" type="submit">
                 Submit
@@ -50,7 +49,7 @@ class EventModify extends Component {
       } else {
         return (
           <Container>
-            <Form>
+            <Form action="http://localhost:2000/api/modify/event" method="post">
               <Form.Group as={Row} controlId="formPlaintextEventID">
                 <Form.Label column sm="2">
                   Event ID:
@@ -60,28 +59,29 @@ class EventModify extends Component {
                     plaintext
                     readOnly
                     defaultValue={this.state.eventId}
+                    name="eventId"
                   />
                 </Col>
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlInput2">
                 <Form.Label>Event Summary</Form.Label>
-                <Form.Control type="text" placeholder="Event Summary" />
+                <Form.Control name="eventSummary" type="text" placeholder="Event Summary" />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlInput3">
                 <Form.Label>Event Date</Form.Label>
-                <Form.Control type="text" placeholder="Date" />
+                <Form.Control name="eventDate" type="text" placeholder="Date" />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlInput4">
                 <Form.Label>Event Organizer</Form.Label>
-                <Form.Control type="text" placeholder="Event Organizer" />
+                <Form.Control name="eventOrg" type="text" placeholder="Event Organizer" />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlInput5">
                 <Form.Label>Event Location</Form.Label>
-                <Form.Control type="text" placeholder="Location" />
+                <Form.Control name="eventLocation" type="text" placeholder="Location" />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlTextarea1">
                 <Form.Label>Event Description</Form.Label>
-                <Form.Control as="textarea" rows="4" />
+                <Form.Control name="eventDesc" as="textarea" rows="4" />
               </Form.Group>
               <Button variant="primary" type="submit">
                 Submit

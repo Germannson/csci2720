@@ -7,12 +7,32 @@ import EventDetail from "./components/EventDetail";
 import AddComment from "./components/AddComment";
 import Comments from "./components/Comments";
 import EventList from "./components/EventList";
+import Search from "./components/Search";
+import EventNav from "./components/EventNav";
+
+
 class App extends React.Component {
+  
+  constructor(props) {
+    
+    super(props);
+    this.state = {
+      keyword: 0,
+    };
+    this.handleKeywordChange = this.handleKeywordChange.bind(this);
+  }
+  handleKeywordChange(evt) {
+    this.setState({ keyword: Number(evt.target.id)});
+    console.log(this.state.keyword);
+    console.log(evt.target.id);
+    return <EventList keyword= {2} />;
+}
+
+  
   render() {
     return (
       <>
-        <EventList />
-      
+      <EventNav/>
       </>
     );
   }
