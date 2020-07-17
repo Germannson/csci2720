@@ -17,9 +17,9 @@ class Search extends Component {
     
     super(props);
     this.state = {
-      Issearching : 0,
-      keyword : '',
-      field : '',
+      Issearching : props.Issearching,
+      keyword : props.keyword,
+      field : props.field,
       eventlist:[],
     
     };
@@ -29,11 +29,13 @@ class Search extends Component {
   }
   handleSubmit(event) {
     this.setState({ Issearching:  1});
-    this.setState({field: ReactDOM.findDOMNode(this.select).value})
     event.preventDefault();
 }
 handleKeyword(event) {
   this.setState({ keyword:  event.target.value});
+}
+myChangeHandler(event) {
+  this.setState({field: event.target.value});
 }
 
 
@@ -50,6 +52,7 @@ handleKeyword(event) {
         keyword : props.keyword,
         field : props.field,
         }
+        console.log(props.Issearching)
       return (
         <EventList {...params} />
       );
@@ -67,7 +70,7 @@ handleKeyword(event) {
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Label>Field select</Form.Label>
-            <Form.Control as="select" ref={select => { this.select = select }}>
+            <Form.Control as="select" onChange={this.myChangeHandler.bind(this)} ref={select => { this.select = select }}>
               <option >eventId</option>
               <option >eventDesc</option>
               <option >eventSummary</option>
@@ -76,8 +79,10 @@ handleKeyword(event) {
               <option >eventOrg</option>
             </Form.Control>
           </Form.Group>
-          <Button variant="primary" type="submit" onClick={this.handleSubmit} id = {2}>
-            Submit
+          <Button variant="outline-primary" type="submit" onClick={this.handleSubmit} id = {2}>
+          <NavLink to={`/eventSearch/keyword/${this.state.keyword}/field/${this.state.field}`} className="float-right" >
+          Submit
+          </NavLink>
           </Button>
         </Form>
         <div>

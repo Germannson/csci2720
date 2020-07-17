@@ -66,13 +66,13 @@ class EventNav extends Component {
                
             <Nav justify variant="tabs" defaultActiveKey="/home">
             <Nav.Item>
-              <NavLink to="/eventAll"  eventKey="allevent" >All Event</NavLink>
+              <NavLink to="/eventAll"  >All Event</NavLink>
             </Nav.Item>
             <Nav.Item>
-              <NavLink to="/eventSearch" eventKey="search" >Search Event</NavLink>
+              <NavLink to="/eventSearch" >Search Event</NavLink>
             </Nav.Item>
             <Nav.Item>
-              <NavLink to="/eventAdd" eventKey="addnew">Add Event</NavLink >
+              <NavLink to="/eventAdd" >Add Event</NavLink >
             </Nav.Item>
             <Nav.Item>
                 <NavLink to={`/eventModify/${this.state.eventId}`}>Modify Event</NavLink >

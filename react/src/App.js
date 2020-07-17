@@ -47,6 +47,7 @@ const renderEventModify =(match)=>{
         userName: this.state.userName,
         eventId: match.params.eventId,
       };
+<<<<<<< HEAD
 
       //console.log(match.params.eventId);
       //return(<p>{match.params.eventId}</p>)
@@ -65,6 +66,47 @@ const renderEventModify =(match)=>{
           <Route path="/eventNav/">
             <EventNav />
           </Route>
+=======
+      const RenderSearchFunction = ({match}) =>  {
+        let props = {
+          Issearching: 1,
+          field:this.state.field,
+          keyword: match.params.keyword,
+          }
+        //console.log(match.params.eventId);
+        //return(<p>{match.params.eventId}</p>)
+        return(<Search {...props} />)
+      };
+      
+    
+    return (
+      <Router>
+        <Header></Header>
+    <Switch>
+    
+    <Route path="/eventNav/">
+    <EventNav />
+ 
+            </Route>
+      
+    
+ <Route path="/eventAll/">
+   
+    <EventList Issearching={0} />
+    </Route>
+            <Route path="/eventSearch/">
+    <Search Issearching={0}/>
+ 
+            </Route>
+            <Route path="/eventSearch/keyword/:keyword/field/:field" component={RenderSearchFunction}>
+    <Search />
+ 
+            </Route>
+            <Route path="/eventModify/:eventId" component={RenderModifyFunction} >
+   
+            </Route>
+            <Route path="/eventAdd/">
+>>>>>>> 87546688510336b26e7fbdadd900db1ba18d45bd
 
           <Route path="/eventAll/">
             <EventList Issearching={0} />
