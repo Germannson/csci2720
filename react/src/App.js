@@ -62,6 +62,16 @@ const renderEventModify =(match)=>{
         //return(<p>{match.params.eventId}</p>)
         return(<EventFavourite params= {{userId: match.params.userId}} />)
       };
+      const RenderSearchFunction = ({match}) =>  {
+        let props = {
+          Issearching: 1,
+          field:this.state.field,
+          keyword: match.params.keyword,
+          }
+        //console.log(match.params.eventId);
+        //return(<p>{match.params.eventId}</p>)
+        return(<Search {...props} />)
+      };
       
     
     return (
@@ -78,9 +88,12 @@ const renderEventModify =(match)=>{
  <Route path="/eventAll/">
    
     <EventList Issearching={0} />
+    </Route>
+            <Route path="/eventSearch/">
+    <Search Issearching={0}/>
  
             </Route>
-            <Route path="/eventSearch/">
+            <Route path="/eventSearch/keyword/:keyword/field/:field" component={RenderSearchFunction}>
     <Search />
  
             </Route>
