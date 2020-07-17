@@ -65,7 +65,7 @@ const renderEventModify =(match)=>{
       const RenderSearchFunction = ({match}) =>  {
         let props = {
           Issearching: 1,
-          field:this.state.field,
+          field:match.params.field,
           keyword: match.params.keyword,
           }
         //console.log(match.params.eventId);
@@ -90,7 +90,7 @@ const renderEventModify =(match)=>{
     <EventList Issearching={0} />
     </Route>
             <Route path="/eventSearch/">
-    <Search Issearching={0}/>
+    <Search Issearching={1}/>
  
             </Route>
             <Route path="/eventSearch/keyword/:keyword/field/:field" component={RenderSearchFunction}>
