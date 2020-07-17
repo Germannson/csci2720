@@ -3,80 +3,41 @@ import { Container, Row, Col } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
+import Comment from "./Comment";
+import axios from "axios";
 
-function Event() {
-  return (
-    <Container>
-      <Row className="mt-5">
-        <Col lg={1}>
-          <Image src="https://picsum.photos/50" roundedCircle />
-        </Col>
-        <Col lg={9}>
-          <div>
-            <span>User Name</span>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Assumenda aspernatur iste quidem odio ab, beatae voluptatibus
-              autem voluptatem voluptate dignissimos possimus fugit sit, natus
-              tempore culpa nam inventore architecto eum?
-            </p>
-          </div>
-        </Col>
-        <Col lg={2}></Col>
-      </Row>
-      <Row className="mt-5">
-        <Col lg={1}>
-          <Image src="https://picsum.photos/50" roundedCircle />
-        </Col>
-        <Col lg={9}>
-          <div>
-            <span>User Name</span>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Assumenda aspernatur iste quidem odio ab, beatae voluptatibus
-              autem voluptatem voluptate dignissimos possimus fugit sit, natus
-              tempore culpa nam inventore architecto eum?
-            </p>
-          </div>
-        </Col>
-        <Col lg={2}></Col>
-      </Row>
-      <Row className="mt-5">
-        <Col lg={1}>
-          <Image src="https://picsum.photos/50" roundedCircle />
-        </Col>
-        <Col lg={9}>
-          <div>
-            <span>User Name</span>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Assumenda aspernatur iste quidem odio ab, beatae voluptatibus
-              autem voluptatem voluptate dignissimos possimus fugit sit, natus
-              tempore culpa nam inventore architecto eum?
-            </p>
-          </div>
-        </Col>
-        <Col lg={2}></Col>
-      </Row>
-      <Row className="mt-5">
-        <Col lg={1}>
-          <Image src="https://picsum.photos/50" roundedCircle />
-        </Col>
-        <Col lg={9}>
-          <div>
-            <span>User Name</span>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Assumenda aspernatur iste quidem odio ab, beatae voluptatibus
-              autem voluptatem voluptate dignissimos possimus fugit sit, natus
-              tempore culpa nam inventore architecto eum?
-            </p>
-          </div>
-        </Col>
-        <Col lg={2}></Col>
-      </Row>
-    </Container>
-  );
+class Comments extends Component {
+  state = { comments: [] };
+  componentDidMount() {
+    axios
+      .get("http://localhost:3000/api/read/comment?event=" + this.props.eventId)
+      .then((res) => {
+        const comments = res.data;
+        this.setState({ comments });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    return (
+      <Container>
+        {this.props.newComment.reverse().map((comment) => (
+          <Comment
+            userName={comment.userName}
+            commentContent={comment.commentContent}
+          />
+        ))}
+        {this.state.comments.map((comment) => (
+          <Comment
+            userName={comment.userName}
+            commentContent={comment.commentContent}
+          />
+        ))}
+      </Container>
+    );
+  }
 }
 
-export default Event;
+export default Comments;

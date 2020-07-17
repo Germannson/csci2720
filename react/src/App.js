@@ -17,51 +17,56 @@ import {
   Switch,
   Redirect,
   Route,
-  useParams
+  useParams,
 } from "react-router-dom";
 
 class App extends React.Component {
-  
   constructor(props) {
-    
     super(props);
     this.state = {
       keyword: 0,
-      userId:'',
-      userName:'',
+      userId: "",
+      userName: "",
     };
   }
-  
-/*
+
+  /*
 const renderEventModify =(match)=>{
   return(<EventModify params= {{eventId: match.params.eventId}} />)
   
 }*/
   render() {
-    
-      const RenderModifyFunction = ({match}) =>  {
-        
-        //console.log(match.params.eventId);
-        //return(<p>{match.params.eventId}</p>)
-        return(<EventModify params= {{eventId: match.params.eventId}} />)
+    const RenderModifyFunction = ({ match }) => {
+      //console.log(match.params.eventId);
+      //return(<p>{match.params.eventId}</p>)
+      return <EventModify params={{ eventId: match.params.eventId }} />;
+    };
+    const RenderDetailFunction = ({ match }) => {
+      let props = {
+        userId: this.state.userId,
+        userName: this.state.userName,
+        eventId: match.params.eventId,
       };
-      const RenderDetailFunction = ({match}) =>  {
-        let props = {
-          userId:this.state.userId,
-          userName:this.state.userName,
-          eventId: match.params.eventId,
-          }
-        
-        //console.log(match.params.eventId);
-        //return(<p>{match.params.eventId}</p>)
-        return(<EventDetailPage  {...props} />)
-      };
-      const RenderFavouriteFunction = ({match}) =>  {
-        
-        //console.log(match.params.eventId);
-        //return(<p>{match.params.eventId}</p>)
-        return(<EventFavourite params= {{userId: match.params.userId}} />)
-      };
+<<<<<<< HEAD
+
+      //console.log(match.params.eventId);
+      //return(<p>{match.params.eventId}</p>)
+      return <EventDetailPage {...props} />;
+    };
+    const RenderFavouriteFunction = ({ match }) => {
+      //console.log(match.params.eventId);
+      //return(<p>{match.params.eventId}</p>)
+      return <EventFavourite params={{ userId: match.params.userId }} />;
+    };
+
+    return (
+      <Router>
+        <Header></Header>
+        <Switch>
+          <Route path="/eventNav/">
+            <EventNav />
+          </Route>
+=======
       const RenderSearchFunction = ({match}) =>  {
         let props = {
           Issearching: 1,
@@ -101,20 +106,31 @@ const renderEventModify =(match)=>{
    
             </Route>
             <Route path="/eventAdd/">
+>>>>>>> 87546688510336b26e7fbdadd900db1ba18d45bd
 
-    <EventModify  params= {{Ismodifing: 0}}/>
- 
-            </Route>
-            <Route path="/eventDetail/:eventId" component={RenderDetailFunction} >
-   
-            </Route>
-            <Route path="/eventFavourite/:userId" component={RenderFavouriteFunction} >
-   
-            </Route>
-    </Switch>
-  </Router>
-      
-      
+          <Route path="/eventAll/">
+            <EventList Issearching={0} />
+          </Route>
+          <Route path="/eventSearch/">
+            <Search />
+          </Route>
+          <Route
+            path="/eventModify/:eventId"
+            component={RenderModifyFunction}
+          ></Route>
+          <Route path="/eventAdd/">
+            <EventModify params={{ Ismodifing: 0 }} />
+          </Route>
+          <Route
+            path="/eventDetail/:eventId"
+            component={RenderDetailFunction}
+          ></Route>
+          <Route
+            path="/eventFavourite/:userId"
+            component={RenderFavouriteFunction}
+          ></Route>
+        </Switch>
+      </Router>
     );
   }
 }
