@@ -47,7 +47,6 @@ const renderEventModify =(match)=>{
         userName: this.state.userName,
         eventId: match.params.eventId,
       };
-<<<<<<< HEAD
 
       //console.log(match.params.eventId);
       //return(<p>{match.params.eventId}</p>)
@@ -59,14 +58,7 @@ const renderEventModify =(match)=>{
       return <EventFavourite params={{ userId: match.params.userId }} />;
     };
 
-    return (
-      <Router>
-        <Header></Header>
-        <Switch>
-          <Route path="/eventNav/">
-            <EventNav />
-          </Route>
-=======
+  
       const RenderSearchFunction = ({match}) =>  {
         let props = {
           Issearching: 1,
@@ -106,7 +98,6 @@ const renderEventModify =(match)=>{
    
             </Route>
             <Route path="/eventAdd/">
->>>>>>> 87546688510336b26e7fbdadd900db1ba18d45bd
 
           <Route path="/eventAll/">
             <EventList Issearching={0} />
