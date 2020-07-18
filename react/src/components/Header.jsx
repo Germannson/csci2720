@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect, withRouter } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
@@ -7,42 +7,46 @@ import Button from "react-bootstrap/Button";
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.state = this.props;
   }
+  state = this.props;
 
   onLogoutClick = () => {
     this.setState({
       userName: undefined,
       userId: undefined,
-      loggedIn: false,
+      isLoggedIn: false,
     });
+    this.props.history.push("/login");
+    // this.props.updateUser(this.state);
   };
 
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.isLoggedIn !== prevProps.isLoggedIn) {
+      this.setState({
+        userName: this.props.userName,
+        userId: this.props.userId,
+        isLoggedIn: this.props.isLoggedIn,
+      });
+    }
+  }
+
   HeaderItem = () => {
-    if (this.state.loggedIn) {
+    if (this.state.isLoggedIn) {
       return (
         <>
           <Navbar>
-            <Nav className="mr-auto">
-              <Link to="/all">All events</Link>
-              &nbsp;&nbsp;
-              <Link to="/fav">Favourite</Link>
-              &nbsp;&nbsp;
-              <Link to="/login">Login</Link>
-              &nbsp;&nbsp;
-              <Link to="/modify">ModifyEvent</Link>
-              &nbsp;&nbsp;
-              <Link to="/create">CreateEvent</Link>
-              &nbsp;&nbsp;
-              <Link to="/detail">EventDetail</Link>
-            </Nav>
+            
 
             <Navbar.Text className="mr-auto">
-              {this.props.info.user} &nbsp;&nbsp;&nbsp;&nbsp;
+              {this.props.userName} &nbsp;&nbsp;&nbsp;&nbsp;
             </Navbar.Text>
+            <Link to = {`/eventFavourite/2`} > Favourite</Link>
             <Button variant="outline-info" onClick={this.onLogoutClick}>
               Logout
             </Button>
+
+
           </Navbar>
         </>
       );
@@ -63,4 +67,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);

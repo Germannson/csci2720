@@ -3,7 +3,7 @@ import "./App.css";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import "bootstrap/dist/css/bootstrap.min.css";
-import EventDetailPage from "./components/EventDetail";
+import EventDetailPage from "./components/EventDetailPage";
 import AddComment from "./components/AddComment";
 import Comments from "./components/Comments";
 import EventList from "./components/EventList";
@@ -12,6 +12,7 @@ import EventNav from "./components/EventNav";
 import EventModify from "./components/EventModify";
 import Header from "./components/Header";
 import EventFavourite from "./components/EventFavourite";
+import LayoutLogin from "./components/LayoutLogin";
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,17 +26,30 @@ class App extends React.Component {
     super(props);
     this.state = {
       keyword: 0,
-      userId: "",
-      userName: "",
+     
+      userName: undefined,
+      userId: undefined,
+      isLoggedIn: false,
     };
+    
   }
-
+  
+  updateUser = (data) => {
+    // Here, we invoke the callback with the new value
+    this.setState({
+      userName: data.userName,
+      userId: data.userId,
+      isLoggedIn: data.isLoggedIn,
+    });
+  }
   /*
 const renderEventModify =(match)=>{
   return(<EventModify params= {{eventId: match.params.eventId}} />)
   
 }*/
   render() {
+
+
     const RenderModifyFunction = ({ match }) => {
       //console.log(match.params.eventId);
       //return(<p>{match.params.eventId}</p>)
@@ -46,6 +60,7 @@ const renderEventModify =(match)=>{
         userId: this.state.userId,
         userName: this.state.userName,
         eventId: match.params.eventId,
+        
       };
 
       //console.log(match.params.eventId);
@@ -73,8 +88,29 @@ const renderEventModify =(match)=>{
     
     return (
       <Router>
-        <Header></Header>
+        <Header
+            userName={this.state.userName}
+            userId={this.state.userId}
+            isLoggedIn={this.state.isLoggedIn}
+            updateUser={this.updateUser}
+          />
+          <Route exact path="*">
+            <Redirect to="/login" />
+          </Route>
     <Switch>
+    <Route
+              exact
+              path="/login"
+              render={(props) => (
+                <LayoutLogin
+                  updateUser={this.updateUser}
+                  userName={this.state.userName}
+                  userId={this.state.userId}
+                  isLoggedIn={this.state.isLoggedIn}
+                  {...props}
+                />
+              )}
+            />
     
     <Route path="/eventNav/">
     <EventNav />
@@ -97,18 +133,9 @@ const renderEventModify =(match)=>{
             <Route path="/eventModify/:eventId" component={RenderModifyFunction} >
    
             </Route>
-            <Route path="/eventAdd/">
+        
 
-          <Route path="/eventAll/">
-            <EventList Issearching={0} />
-          </Route>
-          <Route path="/eventSearch/">
-            <Search />
-          </Route>
-          <Route
-            path="/eventModify/:eventId"
-            component={RenderModifyFunction}
-          ></Route>
+         
           <Route path="/eventAdd/">
             <EventModify params={{ Ismodifing: 0 }} />
           </Route>

@@ -7,7 +7,7 @@ import axios from "axios";
 class EventDetailPage extends Component {
   state = {
     event: [],
-    eventId: 468525,
+    eventId: this.props.eventId ,
     userId: 2,
     userName: "lai",
     newComment: [],
@@ -16,7 +16,7 @@ class EventDetailPage extends Component {
   componentDidMount() {
     console.log("called");
     axios
-      .get("http://localhost:3000/api/read/event/" + this.state.eventId)
+      .get("http://localhost:2000/api/read/event/" + this.state.eventId)
       .then((res) => {
         this.setState({ event: res.data });
         console.log(res);
@@ -29,7 +29,7 @@ class EventDetailPage extends Component {
   handleDelete = (event) => {
     event.preventDefault();
     axios
-      .get("http://localhost:3000/api/delete/event/" + this.state.eventId)
+      .get("http://localhost:2000/api/delete/event/" + this.state.eventId)
       .then((res) => {
         console.log(res);
       })
@@ -43,7 +43,7 @@ class EventDetailPage extends Component {
     event.preventDefault();
     axios
       .get(
-        "http://localhost:3000/api/update/user/" +
+        "http://localhost:2000/api/update/user/" +
           this.state.userId +
           "/favourite/" +
           this.state.eventId
@@ -65,7 +65,7 @@ class EventDetailPage extends Component {
     // console.log(this.props.userId);
     // console.log(event.target.comment.value);
     axios
-      .post("http://localhost:3000/api/create/comment", {
+      .post("http://localhost:2000/api/create/comment", {
         eventId: this.state.eventId,
         userId: this.state.userId,
         commentContent: event.target.comment.value,

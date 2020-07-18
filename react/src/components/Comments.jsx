@@ -10,7 +10,7 @@ class Comments extends Component {
   state = { comments: [] };
   componentDidMount() {
     axios
-      .get("http://localhost:3000/api/read/comment?event=" + this.props.eventId)
+      .get("http://localhost:2000/api/read/comment?event=" + this.props.eventId)
       .then((res) => {
         const comments = res.data;
         this.setState({ comments });

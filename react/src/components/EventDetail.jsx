@@ -25,7 +25,7 @@ class EventDetail extends Component {
             </div>
           </Col>
           <Col lg={1}>
-            {/* <Link to={`/eventModify/${this.state.eventId}`}>Edit</Link> */}
+            <Link to={`/eventModify/${this.props.event.eventId}`}>Edit</Link>
           </Col>
           <Col lg={1}></Col>
           <Col lg={1}>

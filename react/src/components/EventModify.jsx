@@ -8,6 +8,7 @@ import {
   Switch,
   Route,
   Link,
+  withRouter,
   useParams,
   NavLink
 } from "react-router-dom";
@@ -19,7 +20,37 @@ class EventModify extends Component {
       mode: props.params.Ismodifing, //props.info.mode    // 0 for add new , 1 for modify
       eventId: props.params.eventId,
     };
+
   }
+ handlesubmit = event =>{
+  console.log(event);
+      event.preventDefault();
+      axios.post("http://localhost:2000/api/create/event", {
+        
+        eventSummary : event.target.eventSummary.data,
+        eventDate : event.target.eventDate.data,
+        eventOrg : event.target.eventOrg.data,
+        eventLocation : event.target.eventLocation.data,
+        eventDesc : event.target.eventDesc.data,
+      }).then((res)=>{
+       
+                this.props.history.push("/eventAll");
+      })
+}
+handlesubmit2 = event =>{
+  event.preventDefault();
+  axios.post("http://localhost:2000/api/modify/event", {
+    eventId : event.target.eventId.value,
+    eventSummary : event.target.eventSummary.value,
+    eventDate : event.target.eventDate.value,
+    eventOrg : event.target.eventOrg.value,
+    eventLocation : event.target.eventLocation.value,
+    eventDesc : event.target.eventDesc.value,
+  }).then((res)=>{
+    this.props.history.push("/eventDetail/"+this.state.eventId);
+  })
+}
+
 
   render() {
     const FormItem = () => {
@@ -29,7 +60,7 @@ class EventModify extends Component {
             <NavLink to="/eventNav" type="button" variant="outline-dark" className="float-right" >
                   Back
             </NavLink>
-            <Form action="http://localhost:2000/api/create/event" method="post">
+            <Form >
               
               <Form.Group id="eventSummary" >
                 <Form.Label>Event Summary</Form.Label>
@@ -51,7 +82,7 @@ class EventModify extends Component {
                 <Form.Label>Event Description</Form.Label>
                 <Form.Control name = "eventDesc" as="textarea" rows="4" />
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="button" onClick = {this.handlesubmit.bind(this)} >
                 Submit
               </Button>
             </Form>
@@ -63,7 +94,7 @@ class EventModify extends Component {
             <NavLink to="/eventNav" type="button" variant="outline-dark" className="float-right" >
                   Back
             </NavLink>
-            <Form action="http://localhost:2000/api/modify/event" method="post">
+            <Form >
               <Form.Group as={Row} controlId="formPlaintextEventID">
                 <Form.Label column sm="2">
                   Event ID:
@@ -97,7 +128,7 @@ class EventModify extends Component {
                 <Form.Label>Event Description</Form.Label>
                 <Form.Control name="eventDesc" as="textarea" rows="4" />
               </Form.Group>
-              <Button variant="primary" type="submit" >
+              <Button variant="primary" type="submit" onSubmit= {this.handlesubmit2.bind(this)} >
                 Submit
               </Button>
             </Form>
@@ -109,4 +140,4 @@ class EventModify extends Component {
   }
 }
 
-export default EventModify;
+export default withRouter( EventModify);

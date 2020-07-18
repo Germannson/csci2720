@@ -29,7 +29,7 @@ class EventFavourite extends Component {
 
   componentDidMount() {
 
-    axios.get(`http://localhost:2000/api/read/user/`+this.state.userId+`/favorite/`)  //axios.get(`http://localhost:2000/api/read/user/`+this.state.userId+`/favorite/`)
+    axios.get(`http://localhost:2000/api/read/user/2/favourite/`)  //axios.get(`http://localhost:2000/api/read/user/`+this.state.userId+`/favorite/`)
       .then(res => {
         const eventslist = res.data;
         events = res.data;
@@ -119,12 +119,9 @@ class EventFavourite extends Component {
 
       const renderTodos = currentTodos.map((todo, index) => {
         return (
-          <tr key={index} id={todo.eventId}>
-            <td><Link to={`/eventDetail/${todo.eventId}`}>{todo.eventId}</Link></td>
-            <td>{todo.eventSummary}</td>
-            <td>{todo.eventDate}</td>
-            <td>{todo.eventLocation}</td>
-            <td>{todo.eventOrg}</td>
+          <tr key={index} >
+            <td>{todo}</td>
+       
           </tr>
         );
       });
@@ -140,49 +137,14 @@ class EventFavourite extends Component {
               <th>
                 <Button
                   type="button"
-                  onClick={() => requestSort("eventId")}
-                  className={getClassNamesFor("eventId")}
+                  onClick={() => requestSort("_Id")}
+                  className={getClassNamesFor("_Id")}
                 >
                   Id
                 </Button>
               </th>
 
-              <th>
-                <Button
-                  type="button"
-                  onClick={() => requestSort("eventSummary")}
-                  className={getClassNamesFor("eventSummary")}
-                >
-                  Summary
-                </Button>
-              </th>
-              <th>
-                <Button
-                  type="button"
-                  onClick={() => requestSort("eventDate")}
-                  className={getClassNamesFor("eventDate")}
-                >
-                  Date
-                </Button>
-              </th>
-              <th>
-                <Button
-                  type="button"
-                  onClick={() => requestSort("eventLocation")}
-                  className={getClassNamesFor("eventLocation")}
-                >
-                  Location
-                </Button>
-              </th>
-              <th>
-                <Button
-                  type="button"
-                  onClick={() => requestSort("eventOrg")}
-                  className={getClassNamesFor("eventOrg")}
-                >
-                  Organizer
-                </Button>
-              </th>
+             
             </tr>
           </thead>
           <tbody>{renderTodos}</tbody>

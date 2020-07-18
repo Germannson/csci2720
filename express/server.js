@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const bcrypt = require("bcryptjs");
 app.use(cors());
 // app.use(express.static(__dirname));
 
@@ -273,7 +274,7 @@ app.get("/api/update/user/:userId/favourite/:eventId", async function (
 });
 
 app.get("/api/read/user/:userId/favourite", async function (req, res) {
-  await User.distinct("userFavourite")
+  await User.distinct("userFavourite").populate("Event").
     .where("userId")
     .equals(req.params.userId)
     .then((result) => {
@@ -340,6 +341,49 @@ app.post("/api/modify/event", async function (req, res) {
       res.status(500).json(err);
     });
     
+});
+app.post("/api/login", (req, res) => {
+  // Form validation
+  console.log(req.body);
+
+  const userId = +req.body.userId;
+  const userPassword = req.body.userPassword;
+
+  // Find user by email
+  User.findOne({ userId }).then((user) => {
+    // Check if user exists
+    if (!user) {
+      console.log("I cannot find the ID");
+      return res.status(404).json({ idnotfound: "User ID not found" });
+    }
+
+    // Check password
+    bcrypt.compare(userPassword, user.userPassword).then((isMatch) => {
+      if (isMatch) {
+        // User matched
+        // Create JWT Payload
+        //req.session.isLoggedIn = true;
+        //req.session.userId = user.userId;
+        //req.session.userName = user.userName;
+
+        console.log("Success! Hai " + user.userName);
+        // console.log(req.session);
+        res.json({
+          isLoggedIn: true,
+          userId: userId,
+          userName: user.userName,
+        });
+        // res.redirect("/api/all");
+      } else {
+        console.log("wrong Thing");
+        return res.json({
+          isLoggedIn: false,
+          userId: undefined,
+          userName: undefined,
+        });
+      }
+    });
+  });
 });
 
 const server = app.listen(2000);
